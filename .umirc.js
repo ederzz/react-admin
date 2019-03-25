@@ -23,10 +23,10 @@ export default {
     ],
     routes: [
         {
-            path: 'user',
+            path: '/user',
             routes: [
                 {
-                    path: 'login',
+                    path: '/user/login',
                     component: './user/login'
                 }
             ]
@@ -41,9 +41,42 @@ export default {
                     redirect: './user/login'
                 },
                 {
-                    path: 'home',
+                    path: '/home',
+                    name: 'home',
                     component: './home/index'
-                }
+                },
+                {
+                    path: '/dashboard',
+                    name: '概览',
+                    component: './user/login',
+                    routes: [
+                        {
+                            path: '/test',
+                            name: '测试',
+                            component: './user/login'
+                        }
+                    ]
+                },
+                // {
+                //     path: '/products',
+                //     name: '商品',
+                //     component: ''
+                // },
+                // {
+                //     path: '/orders',
+                //     name: '订单',
+                //     component: ''
+                // },
+                // {
+                //     path: '/users',
+                //     name: '用户',
+                //     component: ''
+                // },
+                // {
+                //     path: '/',
+                //     name: '运营',
+                //     component: ''
+                // },
             ]
         }
     ]

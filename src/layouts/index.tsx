@@ -1,6 +1,8 @@
-import React from 'react';
-import { Layout } from 'antd'
-import styles from './index.css';
+import React from 'react'
+import { Layout, Menu, Icon } from 'antd'
+import { setMenu } from '@/utils'
+import SiderMenu from '@/components/SiderMenu'
+import styles from './index.less'
 
 const {
     Sider,
@@ -9,26 +11,37 @@ const {
     Footer,
 } = Layout
 
-export type BasicLayoutComponent<P> = React.SFC<P>;
+const {
+    SubMenu
+} = Menu
+
+export type BasicLayoutComponent<P> = React.SFC<P>
 
 export interface BasicLayoutProps extends React.Props<any> {
-    history?: History;
-    location?: Location;
+    history?: History
+    location?: Location,
+    route: any
 }
 
 const BasicLayout: BasicLayoutComponent<BasicLayoutProps> = props => {
+    const {
+        route: {
+            routes
+        }
+    } = props
+
     return (
         <div className={styles.normal}>
             <Layout>
-                <Sider>sider menu</Sider>
+                <SiderMenu menuData={routes} />
                 <Layout>
                     <Header>header bar</Header>
-                    <Content>{ props.children }</Content>
+                    <Content>{props.children}</Content>
                     <Footer>footer</Footer>
                 </Layout>
-            </Layout>            
+            </Layout>
         </div>
-    );
-};
+    )
+}
 
-export default BasicLayout;
+export default BasicLayout
