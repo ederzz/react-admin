@@ -41,27 +41,28 @@ export default {
                     redirect: './user/login'
                 },
                 {
-                    path: '/home',
-                    name: 'home',
-                    component: './home/index'
-                },
-                {
                     path: '/dashboard',
                     name: '概览',
-                    component: './user/login',
+                    icon: 'dot-chart',
                     routes: [
                         {
-                            path: '/test',
-                            name: '测试',
-                            component: './user/login'
+                            path: '/dashboard/anlysis',
+                            name: '数据分析',
+                            component: './dashboard/anlysis'
                         }
                     ]
                 },
-                // {
-                //     path: '/products',
-                //     name: '商品',
-                //     component: ''
-                // },
+                {
+                    path: '/products',
+                    name: '商品',
+                    icon: 'shop',
+                    component: './products/index',
+                    routes: [
+                        {
+                            path: ''
+                        }
+                    ]
+                },
                 // {
                 //     path: '/orders',
                 //     name: '订单',

@@ -1,18 +1,29 @@
 import * as React from 'react'
 import { Menu, Layout, Icon } from 'antd'
 import { Link } from 'dva/router'
+import { LayoutContext } from '@/layouts'
+import appIcon from '@/assets/taichi.svg'
+import styles from './index.less'
 
 const { SubMenu } = Menu
 const { Sider } = Layout
-const DEFAULT_ICON = 'home' // 默认菜单图标
-const DEFAULT_SELECTED_MENU_KEY = '/home' // 默认选中菜单
+const DEFAULT_SELECTED_MENU_KEY = '/dashboard/anlysis' // 默认选中菜单
+const DEFAULT_APP_NAME = 'shenyiling'
+
+function getMenuName(item) {
+    return (
+        <>
+            { item.icon && <Icon type={item.icon} /> }
+            <span>{item.name}</span>
+        </>
+    )
+}
 
 function getMenuLink(item) {
     // route link
     return (
         <Link to={item.path}>
-            <Icon type={item.icon || DEFAULT_ICON} />
-            {item.name}
+            {getMenuName(item)}
         </Link>
     )
 }
@@ -30,7 +41,7 @@ function getMenus(menuConfig) {
                 return (
                     <SubMenu
                         key={item.path}
-                        title={item.name}
+                        title={getMenuName(item)}
                     >
                         {getMenus(item.routes)}
                     </SubMenu>
@@ -64,25 +75,30 @@ function MainMenu({ menuData, ...menuProps }) {
 export default function SiderMenu({
     menuData
 }) {
-    const siderStyle = {
-        display: 'flex',
-        width: '100%',
-        flexDirection: 'column'
-        // flexDirection: 'column'
-    }
 
     // return menu
     return (
-        <Sider
-            // style={siderStyle}
-        >
-            <div>app name</div>
-            <MainMenu 
-                mode="inline"
-                theme="light"
-                defaultSelectedKeys={[DEFAULT_SELECTED_MENU_KEY]}
-                menuData={menuData} 
-            />
-        </Sider>
+        <LayoutContext.Consumer>
+            {
+                ({ menuFold }) => (
+                    // TODO: 默认context没有menuFold
+                    <Sider
+                        collapsed={menuFold}
+                        theme={'light'}
+                    >
+                        <div className={styles.appName}>
+                            <img src={appIcon} />
+                            <span>{DEFAULT_APP_NAME}</span>
+                        </div>
+                        <MainMenu
+                            mode="inline"
+                            theme="light"
+                            defaultSelectedKeys={[DEFAULT_SELECTED_MENU_KEY]}
+                            menuData={menuData} 
+                        />
+                    </Sider>
+                )
+            }
+        </LayoutContext.Consumer>
     )
 }
