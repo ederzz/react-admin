@@ -32,6 +32,10 @@ export default {
             ]
         },
         {
+            path: '/bussiness',
+            component: './bussiness/index',
+        },
+        {
             path: '/',
             component: '../layouts/index',
             Routes: ['src/pages/Authorized'],

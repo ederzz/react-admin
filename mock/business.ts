@@ -9,12 +9,6 @@ function createBussinessList() {
                     "Krispy Kreme"
                 ],
                 "img": "",
-                "object|2-4": {
-                    "110000": "北京市",
-                    "120000": "天津市",
-                    "130000": "河北省",
-                    "140000": "山西省"
-                  },
                 "label|2-4": [ // TODO: mock
                     "Coffee",
                     "Tea",
