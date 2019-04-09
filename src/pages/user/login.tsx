@@ -11,6 +11,13 @@ const FormItem = Form.Item
 
 export class Login extends React.Component<any, any> {
 
+    componentDidMount() {
+        fetch('/bussiness/list')
+            .then(res => {
+                console.log(res)
+            })
+    }
+
     render() {
         const {
             getFieldDecorator
@@ -44,7 +51,10 @@ export class Login extends React.Component<any, any> {
                             <Link 
                                 className={styles.signUpLink} 
                                 to="./user/register"
-                                >Create an account</Link>
+                                // tslint:disable-next-line:jsx-alignment
+                                >
+                                Create an account
+                            </Link>
                         </p>
                     </Form>
                 </div>
