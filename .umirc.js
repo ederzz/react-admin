@@ -32,6 +32,10 @@ export default {
             ]
         },
         {
+            path: '/d3-chart',
+            component: './d3Chart/index',
+        },
+        {
             path: '/bussiness',
             component: './bussiness/index',
         },

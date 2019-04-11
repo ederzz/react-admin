@@ -1,0 +1,95 @@
+@border_color: #edecf1;
+@background_color: #f7f6fb;
+@sub_text_color: #b6b6b8;
+@text_color: #626166;
+@sub_font_size: 14px;
+@font_size: 16px;
+@published_color: #60f0d8;
+@draft_color: #e0784b;
+
+.container {
+    margin: 0 100px;
+}
+
+.mainFont {
+    font-size: @font_size;
+}
+
+.labelCap {
+    height: 28px;
+    display: inline-block;
+    line-height: 28px;
+    padding: 0 14px;
+    border-radius: 14px;
+}
+
+.bussiness__wrapper {
+    display: flex;
+
+    img {
+        width: 50px;
+        height: 50px;
+        background-color: green;
+        border-radius: 4px;
+        margin-right: 10px;
+    }
+
+    .bussinessName {
+        color: @text_color;
+    }
+}
+
+.published {
+    color: @published_color;
+    border: 1px solid @published_color;
+}
+
+.draft {
+    color: @draft_color;
+    border: 1px solid @draft_color;
+}
+
+:global {
+    body {
+        background-color: @background_color;
+    }
+
+    .ant-table-wrapper {
+        background-color: transparent;
+    }
+
+    .ant-table-thead {
+        tr {
+            th {
+                border-bottom: 1px solid @border_color;
+                background-color: transparent;
+                color: @sub_text_color;
+            }
+        }
+    }
+
+    .ant-table-tbody {
+        tr {
+            td {
+                border-bottom: 1px solid @border_color;
+            }
+        }
+    }
+
+    .ant-table-tbody {
+        color: @sub_text_color;
+        font-size: @sub_font_size;
+
+        tr:hover:not(.ant-table-expanded-row) {
+            border-radius: 20px;
+            overflow: hidden;
+            background-color: #fff;
+            box-shadow: 0 0 15px 1px rgb(221, 219, 219);
+
+            td {
+                background-color: transparent;
+                // border-radius: 20px;
+            }
+        }
+    }
+}

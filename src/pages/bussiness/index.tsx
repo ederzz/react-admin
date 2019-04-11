@@ -1,9 +1,10 @@
 import * as React from 'react'
 import {
-    Table,
-    Tag,
-    Divider
+    Table
 } from 'antd'
+import { ColumnProps } from 'antd/lib/table'
+import classNames from 'classnames'
+import styles from './index.less'
 
 interface IBussiness {
     name: string,
@@ -19,25 +20,26 @@ interface IBussiness {
     actionsPercent: number
 }
 
-const {
-    Column,
-    ColumnGroup
-} = Table
-
 export default class Bussiness extends React.PureComponent {
-    _renderTags = tags => (
-        <span>
-            {tags.map(tag => <Tag color="blue" key={tag}>{tag}</Tag>)}
-        </span>
-    )
+    state = {
+        data: []
+    }
 
-    _renderAction = (text, record) => (
-        <span>
-            <a href="javascript:;">Invite {record.lastName}</a>
-            <Divider type="vertical" />
-            <a href="javascript:;">Delete</a>
-        </span>
-    )
+    componentDidMount() {
+        fetch('/bussiness/list')
+            .then((res) => {
+                return res.json()
+            })
+            .then(({
+                bussinesses
+            }) => {
+                this.setState({
+                    data: bussinesses
+                }, () => {
+                    console.log(this.state)
+                })
+            })
+    }
 
     tableOnRow = record => {
         return {
@@ -47,70 +49,118 @@ export default class Bussiness extends React.PureComponent {
         }
     }
 
+    renderBussiness = ({ name, img, label }) => {
+        return (
+            <div className={styles.bussiness__wrapper}>
+                <img src={img} />
+                <div>
+                    <div className={classNames(styles.bussinessName, styles.mainFont)}>{name}</div>
+                    <div className={styles.labels}>
+                        {
+                            label.slice(0, 3).map(l => <span key={l}>{l}</span>)
+                        }
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
+    renderStatus = ({ updateTime, status }) => {
+        return (
+            <div>
+                <div
+                    className={classNames(styles.labelCap, {
+                        [styles.published]: status === 1,
+                        [styles.draft]: status === 0
+                    })}
+                >
+                    {status === 1 ? 'Published' : 'Draft'}
+                </div>
+                <div>{updateTime}</div>
+            </div>
+        )
+    }
+
+    renderStars = ({ stars, reviews }) => {
+        return (
+            <div>
+                <div>{stars}</div>
+                <div>{reviews} reviews</div>
+            </div>
+        )
+    }
+
+    renderViews = ({ views, viewsPercent }) => {
+        return (
+            <div>
+                <div>{views} {viewsPercent}</div>
+                <div>Total views</div>
+            </div>
+        )
+    }
+
+    renderStasActions = ({ actions, actionsPercent }) => {
+        return (
+            <div>
+                <div>{actions} {actionsPercent}</div>
+                <div>Total actions</div>
+            </div>
+        )
+    }
+
+    renderActions = () => {
+        return (
+            <div>
+                ...
+            </div>
+        )
+    }
+
     render() {
-        const data = [{
-            key: '1',
-            firstName: 'John',
-            lastName: 'Brown',
-            age: 32,
-            address: 'New York No. 1 Lake Park',
-            tags: ['nice', 'developer'],
-        }, {
-            key: '2',
-            firstName: 'Jim',
-            lastName: 'Green',
-            age: 42,
-            address: 'London No. 1 Lake Park',
-            tags: ['loser'],
-        }, {
-            key: '3',
-            firstName: 'Joe',
-            lastName: 'Black',
-            age: 32,
-            address: 'Sidney No. 1 Lake Park',
-            tags: ['cool', 'teacher'],
-        }]
+        const {
+            data
+        } = this.state
+
+        const columns: ColumnProps<IBussiness>[] = [
+            {
+                key: 'bussiness',
+                title: 'Bussiness',
+                render: this.renderBussiness
+            },
+            {
+                key: 'status',
+                title: 'Status/Modified',
+                render: this.renderStatus
+            },
+            {
+                key: 'stas-stars',
+                title: 'Stas',
+                render: this.renderStars
+            },
+            {
+                key: 'stas-views',
+                title: 'Stas',
+                render: this.renderViews
+            },
+            {
+                key: 'stas-actions',
+                title: 'Stas',
+                render: this.renderStasActions
+            },
+            {
+                key: 'actions',
+                title: 'actions',
+                render: this.renderActions
+            }
+        ]
 
         return (
-            <main>
-                <Table 
+            <main className={styles.container}>
+                <Table
                     onRow={this.tableOnRow}
+                    columns={columns}
                     dataSource={data}
-                >
-                    <ColumnGroup title="Name">
-                        <Column
-                            title="First Name"
-                            dataIndex="firstName"
-                            key="firstName"
-                        />
-                        <Column
-                            title="Last Name"
-                            dataIndex="lastName"
-                            key="lastName"
-                        />
-                    </ColumnGroup>
-                    <Column
-                        title="Age"
-                        dataIndex="age"
-                        key="age"
-                    />
-                    <Column
-                        title="Address"
-                        dataIndex="address"
-                        key="address"
-                    />
-                    <Column
-                        title="Tags"
-                        dataIndex="tags"
-                        key="tags"
-                        render={this._renderTags}
-                    />
-                    <Column
-                        title="Action"
-                        key="action"
-                        render={this._renderAction}
-                    />
-                </Table>
+                />
             </main>
         )
     }

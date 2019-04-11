@@ -10,14 +10,6 @@ import styles from './login.less'
 const FormItem = Form.Item
 
 export class Login extends React.Component<any, any> {
-
-    componentDidMount() {
-        fetch('/bussiness/list')
-            .then(res => {
-                console.log(res)
-            })
-    }
-
     render() {
         const {
             getFieldDecorator
