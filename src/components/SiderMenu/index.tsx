@@ -1,8 +1,9 @@
 import * as React from 'react'
 import { Menu, Layout, Icon } from 'antd'
 import { Link } from 'dva/router'
+import classnames from 'classnames'
 import { LayoutContext } from '@/layouts'
-import appIcon from '@/assets/taichi.svg'
+import appIcon from '@/assets/dun.svg'
 import styles from './index.less'
 
 const { SubMenu } = Menu
@@ -66,6 +67,7 @@ function MainMenu({ menuData, ...menuProps }) {
         <Menu 
             style={menuStyle}
             {...menuProps}
+            theme={'dark'}
         >
             {getMenus(menuData)}
         </Menu>
@@ -87,12 +89,18 @@ export default function SiderMenu({
                         theme={'light'}
                     >
                         <div className={styles.appName}>
-                            <img src={appIcon} />
-                            <span>{DEFAULT_APP_NAME}</span>
+                            <img
+                                className={classnames(styles.appImg, {
+                                    [styles.appImgFolded]: menuFold,
+                                    [styles.appImgUnFolded]: !menuFold
+                                })} 
+                                src={appIcon} 
+                            />
+                            {/* <span>{DEFAULT_APP_NAME}</span> */}
                         </div>
                         <MainMenu
                             mode="inline"
-                            theme="light"
+                            theme="dark"
                             defaultSelectedKeys={[DEFAULT_SELECTED_MENU_KEY]}
                             menuData={menuData} 
                         />
