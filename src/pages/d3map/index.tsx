@@ -12,7 +12,7 @@ export const getRandomHSL = () => `hsl(${360 * Math.random()}, ${25 + 65 * Math.
 const pxReg = /(\d+)px/
 
 class D3Map extends React.Component<any, IState> {
-    d3Dom: any
+    d3Dom: HTMLDivElement
     toastWrapper: any
     width: number
     height: number
@@ -20,8 +20,8 @@ class D3Map extends React.Component<any, IState> {
     constructor(props) {
         super(props)
         this.state = {
-            mapCenter: [100, 38],
-            mapScale: 800
+            mapCenter: [104, 38], // 地图中心点
+            mapScale: 400
         }
     }
 
@@ -34,7 +34,7 @@ class D3Map extends React.Component<any, IState> {
         const maxChildNum = Math.max(...mapData.features.map(d => d.properties.childNum))
         // map area color opacity scale
         const opacityScale = d3.scaleLinear()
-            .range([0, 1])
+            .range([0.2, 1])
             .domain([0, maxChildNum])
 
         const svg = d3.select(this.d3Dom)
@@ -43,6 +43,7 @@ class D3Map extends React.Component<any, IState> {
             .attr('width', '100%')
             .attr('height', '100%')
             .style('position', 'relative')
+
         this.width = Number(pxReg.exec(svg.style('width'))[1])
         this.height = Number(pxReg.exec(svg.style('height'))[1])
 
@@ -87,6 +88,7 @@ class D3Map extends React.Component<any, IState> {
     }
 
     fetchData() {
+        // fetch server data
         this.renderToast([96.416, 42.7148], '订单来了')
         setTimeout(() => {
             this.renderToast([79.0137, 34.3213], '订单来了')
@@ -140,7 +142,7 @@ class D3Map extends React.Component<any, IState> {
             .duration(1000)
             .style('opacity', 1)
         toast.transition()
-            .delay(4000)
+            .delay(8000)
             .duration(1000)
             .style('opacity', 0)
             .remove()
