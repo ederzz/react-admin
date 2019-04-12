@@ -48,25 +48,25 @@ class D3Map extends React.Component<any, IState> {
 
     fetchData() {
         // fetch server data
-        this.renderToast([116.299157,37.569267], '订单来了')
+        this.renderToast([116.299157,37.569267])
         setTimeout(() => {
-            this.renderToast([113.507045,36.704855], '订单来了')
+            this.renderToast([113.507045,36.704855])
         }, 1000)
         setTimeout(() => {
-            this.renderToast([125.109143,51.661356], '订单来了')
+            this.renderToast([125.109143,51.661356])
         }, 2000)
-        this.renderToast([96.416, 42.7148], '订单来了')
+        this.renderToast([96.416, 42.7148])
         setTimeout(() => {
-            this.renderToast([79.0137, 34.3213], '订单来了')
+            this.renderToast([79.0137, 34.3213])
         }, 1000)
         setTimeout(() => {
-            this.renderToast([121.4648, 53.3496], '订单来了')
+            this.renderToast([121.4648, 53.3496])
         }, 2000)
         setTimeout(() => {
-            this.renderToast([123.6621, 53.5693], '订单来了')
+            this.renderToast([123.6621, 53.5693])
         }, 3000)
         setTimeout(() => {
-            this.renderToast([101.7773, 33.5303], '订单来了')
+            this.renderToast([101.7773, 33.5303])
         }, 3000)
     }
 
@@ -98,8 +98,8 @@ class D3Map extends React.Component<any, IState> {
 
         filter.append("feOffset")
             .attr("in", "blur")
-            .attr("dx", 1)
-            .attr("dy", 1)
+            .attr("dx", 2)
+            .attr("dy", 2)
             .attr("result", "offsetBlur")
 
         var feMerge = filter.append("feMerge")
@@ -108,8 +108,6 @@ class D3Map extends React.Component<any, IState> {
             .attr("in", "offsetBlur")
         feMerge.append("feMergeNode")
             .attr("in", "SourceGraphic")
-        
-        return filter
     }
 
     renderArea = (mapData, {
@@ -134,12 +132,12 @@ class D3Map extends React.Component<any, IState> {
 
         const mapG = this.svg.append('g')
 
-        // draw china map
+        // draw map
         const pathEve = mapG.selectAll("path")
             .data(mapData.features)
             .enter()
             .append("path")
-            .attr("class", "map-path")
+            // .attr("class", "map-path")
             .attr("stroke", strokeStyle)
             .attr("stroke-width", 0.25)
             .attr("fill", (d) => {
@@ -168,7 +166,7 @@ class D3Map extends React.Component<any, IState> {
 
     renderToast(
         [x, y]: [number, number],
-        text: string
+        text: string = '订单来了'
     ) {
         const {
             mapCenter,
@@ -180,6 +178,7 @@ class D3Map extends React.Component<any, IState> {
             .translate([this.width / 2, this.height / 2])
         const geo = toastProjection([x, y])
 
+        // add toast div
         const toast = d3.select(this.d3Dom)
             .append('div')
             .html(text)
@@ -199,7 +198,7 @@ class D3Map extends React.Component<any, IState> {
         toast.style('left', `${left}px`)
             .style('top', `${top}px`)
 
-        // animate
+        // animate and remove
         toast.transition()
             .duration(1000)
             .style('opacity', 1)
