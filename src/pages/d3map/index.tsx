@@ -3,16 +3,34 @@ import * as d3 from 'd3'
 import { geoMercator, geoPath } from "d3-geo"
 import mapData from '@/utils/echarts/json/china.json'
 
-const width = 1000
-const height = 1000
+interface IState {
+    mapCenter: [number, number],
+    mapScale: number
+}
 
 export const getRandomHSL = () => `hsl(${360 * Math.random()}, ${25 + 65 * Math.random()}%, ${65 + 25 * Math.random()}%)`
+const pxReg = /(\d+)px/
 
-class D3Map extends React.Component<any, any> {
+class D3Map extends React.Component<any, IState> {
     d3Dom: any
     toastWrapper: any
+    width: number
+    height: number
+    
+    constructor(props) {
+        super(props)
+        this.state = {
+            mapCenter: [100, 38],
+            mapScale: 800
+        }
+    }
 
     componentDidMount() {
+        const {
+            mapCenter,
+            mapScale
+        } = this.state
+
         const maxChildNum = Math.max(...mapData.features.map(d => d.properties.childNum))
         // map area color opacity scale
         const opacityScale = d3.scaleLinear()
@@ -25,11 +43,13 @@ class D3Map extends React.Component<any, any> {
             .attr('width', '100%')
             .attr('height', '100%')
             .style('position', 'relative')
+        this.width = Number(pxReg.exec(svg.style('width'))[1])
+        this.height = Number(pxReg.exec(svg.style('height'))[1])
 
         const projection = geoMercator() //geo坐标和浏览器坐标的换算
-            .center([100, 32])
-            .scale(800)
-            .translate([width / 2, height / 2])
+            .center(mapCenter)
+            .scale(mapScale)
+            .translate([this.width / 2, this.height / 2])
         
         const path = geoPath()
             .projection(projection)
@@ -86,12 +106,14 @@ class D3Map extends React.Component<any, any> {
         [ x, y ]: [number, number],
         text: string
     ) {
-        const pxReg = /(\d.)px/
-
+        const {
+            mapCenter,
+            mapScale
+        } = this.state
         const toastProjection = geoMercator()
-            .center([100, 32])
-            .scale(800)
-            .translate([width / 2, height / 2])
+            .center(mapCenter)
+            .scale(mapScale)
+            .translate([this.width / 2, this.height / 2])
         const geo = toastProjection([x, y])
 
         const toast = d3.select(this.d3Dom)
@@ -115,11 +137,11 @@ class D3Map extends React.Component<any, any> {
 
         // animate
         toast.transition()
-            .duration(2000)
+            .duration(1000)
             .style('opacity', 1)
         toast.transition()
             .delay(4000)
-            .duration(2000)
+            .duration(1000)
             .style('opacity', 0)
             .remove()
             
