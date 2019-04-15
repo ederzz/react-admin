@@ -33,7 +33,7 @@ class D3Map extends React.Component<any, IState> {
         const maxChildNum = Math.max(...mapData.features.map(d => d.properties.childNum))
         // map area color opacity scale
         this.setOpacityScale(maxChildNum)
-        this.setFilter()
+        this.defFilter()
         this.renderArea(chinaContour, {
             hasFilter: true,
             strokeStyle: '#212121'
@@ -85,7 +85,7 @@ class D3Map extends React.Component<any, IState> {
             .domain([0, maxD])
     }
 
-    setFilter = () => {
+    defFilter = () => {
         const filter = this.svg.append("defs")
             .append("filter")
             .attr("id", "drop-shadow")
@@ -146,9 +146,14 @@ class D3Map extends React.Component<any, IState> {
             })
             .attr("style", "display:block")
             .attr("d", path)
+            .on('mouseover', function () {
+                d3.select(this).attr("stroke-width", 1.5)
+            })
+            .on('mouseout', function () {
+                d3.select(this).attr("stroke-width", 0.25)
+            })
         if (hasFilter) {
             pathEve.style("filter", "url(#drop-shadow)")
-
         }
     }
 
