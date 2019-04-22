@@ -3,10 +3,22 @@ import * as d3 from 'd3'
 import { geoMercator, geoPath } from "d3-geo"
 import mapData from '@/utils/echarts/json/china.json'
 import chinaContour from '@/utils/echarts/json/china-contour.json'
+import * as provinces from '@/utils/echarts/province'
 
 interface IState {
     mapCenter: [number, number],
-    mapScale: number
+    mapScale: number,
+    toastFontSize: number
+}
+
+function resolveData(data) {
+    if (data.length === 2 &&
+        typeof data[0] === 'number' &&
+        typeof data[1] === 'number') {
+        return data
+    }
+    const length = data.length
+    return resolveData(data[length * Math.random() >> 0])
 }
 
 export const getRandomHSL = () => `hsl(${360 * Math.random()}, ${25 + 65 * Math.random()}%, ${65 + 25 * Math.random()}%)`
@@ -24,7 +36,8 @@ class D3Map extends React.Component<any, IState> {
         super(props)
         this.state = {
             mapCenter: [104, 38], // 地图中心点
-            mapScale: 800
+            mapScale: 800,
+            toastFontSize: 16
         }
     }
 
@@ -55,19 +68,29 @@ class D3Map extends React.Component<any, IState> {
         setTimeout(() => {
             this.renderToast([125.109143,51.661356])
         }, 2000)
-        this.renderToast([96.416, 42.7148])
-        setTimeout(() => {
-            this.renderToast([79.0137, 34.3213])
-        }, 1000)
-        setTimeout(() => {
-            this.renderToast([121.4648, 53.3496])
-        }, 2000)
-        setTimeout(() => {
-            this.renderToast([123.6621, 53.5693])
-        }, 3000)
-        setTimeout(() => {
-            this.renderToast([101.7773, 33.5303])
-        }, 3000)
+        // } catch (error) {
+        //     clearInterval(timer)
+        // }
+    }
+
+    randomPos = () => {
+        const keys = Object.keys(provinces)
+        const provinceKey = keys[keys.length * Math.random() >> 0]
+        const province = provinces[provinceKey]
+        const areas = province.features
+        let areaPos = []
+        let area
+        while (areaPos.length === 0) {
+            area = areas[areas.length * Math.random() >> 0]
+            areaPos = area.geometry
+                .coordinates
+        }
+        const pos = areaPos[areaPos.length * Math.random() >> 0]
+
+        return {
+            pos: resolveData(pos),
+            name: area.properties.name
+        }
     }
 
     initSvg = () => {
@@ -157,25 +180,14 @@ class D3Map extends React.Component<any, IState> {
         }
     }
 
-    setToastWrapper = () => {
-        // set toast wrapper
-        // const toastG = this.svg.append('g')
-        //     .attr('id', 'toastG')
-        //     .attr('width', '100%')
-        //     .attr('height', '100%')
-        // this.toastWrapper = toastG.append('svg')
-        //     .attr('id', 'toastWrapper')
-        //     .attr('width', '100%')
-        //     .attr('height', '100%')
-    }
-
     renderToast(
         [x, y]: [number, number],
         text: string = '订单来了'
     ) {
         const {
             mapCenter,
-            mapScale
+            mapScale,
+            toastFontSize
         } = this.state
         const toastProjection = geoMercator()
             .center(mapCenter)
@@ -190,7 +202,7 @@ class D3Map extends React.Component<any, IState> {
             .style('background-color', getRandomHSL())
             .style('position', 'absolute')
             .style('color', 'white')
-            .style('font-size', '12px')
+            .style('font-size', `${toastFontSize}px`)
             .style('padding', '3px')
             .style('opacity', 0)
 
