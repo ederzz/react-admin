@@ -1,6 +1,7 @@
 import * as React from "react"
 import * as d3 from 'd3'
 import { geoMercator, geoPath } from "d3-geo"
+import { tsPx2number, getRandomHSL, resolveData } from '@/utils'
 import mapData from '@/utils/echarts/json/china.json'
 import chinaContour from '@/utils/echarts/json/china-contour.json'
 import * as provinces from '@/utils/echarts/province'
@@ -10,19 +11,6 @@ interface IState {
     mapScale: number,
     toastFontSize: number
 }
-
-function resolveData(data) {
-    if (data.length === 2 &&
-        typeof data[0] === 'number' &&
-        typeof data[1] === 'number') {
-        return data
-    }
-    const length = data.length
-    return resolveData(data[length * Math.random() >> 0])
-}
-
-export const getRandomHSL = () => `hsl(${360 * Math.random()}, ${25 + 65 * Math.random()}%, ${65 + 25 * Math.random()}%)`
-const pxReg = /(\d+)px/
 
 class D3Map extends React.Component<any, IState> {
     d3Dom: HTMLDivElement
@@ -142,8 +130,8 @@ class D3Map extends React.Component<any, IState> {
             mapScale
         } = this.state
 
-        this.width = Number(pxReg.exec(this.svg.style('width'))[1])
-        this.height = Number(pxReg.exec(this.svg.style('height'))[1])
+        this.width = tsPx2number(this.svg.style('width')) 
+        this.height = tsPx2number(this.svg.style('height'))
 
         const projection = geoMercator() //geo坐标和浏览器坐标的换算
             .center(mapCenter)
@@ -207,8 +195,8 @@ class D3Map extends React.Component<any, IState> {
             .style('opacity', 0)
 
         // resolve toast width & height
-        const w = Number(pxReg.exec(toast.style('width'))[1]) / 2
-        const h = Number(pxReg.exec(toast.style('height'))[1]) / 2
+        const w = tsPx2number(toast.style('width')) / 2
+        const h = tsPx2number(toast.style('height')) / 2
         const left = geo[0] - w
         const top = geo[1] - h
 

@@ -40,6 +40,10 @@ export default {
             component: './d3map/index',
         },
         {
+            path: '/d3-map2',
+            component: './d3map2/index',
+        },
+        {
             path: '/bussiness',
             component: './bussiness/index',
         },

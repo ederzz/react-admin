@@ -1,0 +1,45 @@
+.d3ChartWrapper {
+    width: 80vw;
+    height: 80vh;
+}
+
+:global {
+    html {
+        font-size: 13.33333vw;
+    }
+
+
+    .mark {
+        position: absolute;
+
+        .mark-icon {
+            width: .1rem;
+            height: .2rem;
+            position: absolute;
+            width: 25px;
+            height: 41px;
+        }
+    }
+
+    .order-detail {
+        background-color: #fff;
+        padding: 10px;
+        border-radius: 4px;
+        box-shadow: 0 0 8px 0 #afaeae;
+        z-index: 99;
+
+        >div {
+            white-space: nowrap;
+        }
+
+        &::before {
+            content: '';
+            display: block;
+            border: 8px solid #fff;
+            border-color: #fff transparent transparent transparent;
+            position: absolute;
+            bottom: -16px;
+            left: calc(~'50% - 8px');
+        }
+    }
+}
