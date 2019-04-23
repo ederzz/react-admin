@@ -45,7 +45,7 @@ export default {
         },
         {
             path: '/bussiness',
-            component: './bussiness/index',
+            component: './business/index',
         },
         {
             path: '/',

@@ -3,10 +3,12 @@ import {
     Table
 } from 'antd'
 import { ColumnProps } from 'antd/lib/table'
+import { getRandomHSL } from '@/utils'
 import classNames from 'classnames'
+import BusinessBarChart from '@/components/BusinessBarChart'
 import styles from './index.less'
 
-interface IBussiness {
+interface IBusiness {
     name: string,
     img: string
     label: string[],
@@ -20,7 +22,7 @@ interface IBussiness {
     actionsPercent: number
 }
 
-export default class Bussiness extends React.PureComponent {
+export default class Business extends React.PureComponent {
     state = {
         data: []
     }
@@ -52,7 +54,12 @@ export default class Bussiness extends React.PureComponent {
     renderBussiness = ({ name, img, label }) => {
         return (
             <div className={styles.bussiness__wrapper}>
-                <img src={img} />
+                <div 
+                    style={{
+                        backgroundColor: getRandomHSL()
+                    }} 
+                    className={styles.img}
+                />
                 <div>
                     <div className={classNames(styles.bussinessName, styles.mainFont)}>{name}</div>
                     <div className={styles.labels}>
@@ -121,7 +128,7 @@ export default class Bussiness extends React.PureComponent {
             data
         } = this.state
 
-        const columns: ColumnProps<IBussiness>[] = [
+        const columns: ColumnProps<IBusiness>[] = [
             {
                 key: 'bussiness',
                 title: 'Bussiness',
@@ -156,7 +163,9 @@ export default class Bussiness extends React.PureComponent {
 
         return (
             <main className={styles.container}>
+                <BusinessBarChart />
                 <Table
+                    className={styles.businessTable}
                     onRow={this.tableOnRow}
                     columns={columns}
                     dataSource={data}

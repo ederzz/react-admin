@@ -1,0 +1,127 @@
+.container {
+    width: 80vw;
+    height: 40vh;
+    margin: auto;
+    padding-bottom: 0.2rem;
+    position: relative;
+    overflow: hidden;
+    box-sizing: content-box;
+}
+
+:global {
+    html {
+        font-size: 13.333333333vw !important;
+    }
+
+    .title-wrapper {
+        position: absolute;
+        left: .05rem;
+        top: .2rem;
+        display: flex;
+        font-size: .14rem;
+    }
+
+    .logo {
+        width: .25rem;
+        height: .25rem;
+        border-radius: 50%;
+        box-shadow: 0 0 .1rem 0 #eee;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: .1rem;
+    }
+
+    .logo img {
+        width: .13rem;
+        height: .13rem;
+    }
+
+    .right .bussiness-n {
+        font-size: .22rem;
+        font-weight: 700;
+        color: rgba(0, 0, 0, .7);
+    }
+
+    .right .title {
+        color: #ccc;
+    }
+
+    .stas-wrapper {
+        position: absolute;
+        right: .2rem;
+        top: .2rem;
+        font-size: .12rem;
+        font-weight: 700;
+        color: rgba(0, 0, 0, .7);
+        display: flex;
+    }
+
+    .stas-wrapper img {
+        width: .12rem;
+        height: .12rem;
+        margin-right: .05rem;
+    }
+
+    .verification {
+        margin-right: .1rem;
+    }
+
+    .verification,
+    .published {
+        display: flex;
+    }
+
+    .verification .text,
+    .published .text {
+        color: #ccc;
+        font-weight: normal;
+        font-size: .1rem;
+    }
+
+    .status-bar {
+        position: absolute;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        bottom: 0;
+        font-size: .14rem;
+    }
+
+    .status-bar .prev-month,
+    .status-bar .next-month {
+        display: flex;
+        align-items: center;
+    }
+
+    .status-bar .prev-month img,
+    .status-bar .next-month img {
+        width: .2rem;
+        height: .2rem;
+    }
+
+    .tooltip {
+        display: flex;
+        padding: .1rem;
+        box-sizing: border-box;
+        font-size: .14rem;
+        background-color: #fff;
+        box-shadow: 0 0 10px 0 #e2e2e2;
+        border-radius: 4px;
+        position: absolute;
+        opacity: 0;
+    }
+
+    .tooltip img {
+        width: .2rem;
+        height: .2rem;
+        margin-right: .05rem;
+    }
+
+    .tooltip .right .date {
+        color: #ccc;
+        margin-top: .05rem;
+        font-size: .12rem;
+    }
+}

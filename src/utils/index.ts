@@ -1,4 +1,5 @@
 import config from '../../.umirc.js'
+import Mock from 'mockjs'
 
 export function setMenu() {
     return config.routes
@@ -19,4 +20,30 @@ export function resolveData(data) {
     }
     const length = data.length
     return resolveData(data[length * Math.random() >> 0])
+}
+
+export function mockData() {
+    return Mock.mock({
+        'prev|31': [
+            {
+                'date|+1': 1,
+                'value|10-30': 1,
+                'verifyRequired|1': true
+            }
+        ],
+        'current|30': [
+            {
+                'date|+1': 1,
+                'value|10-30': 1,
+                'verifyRequired|1': true
+            }
+        ],
+        'next|31': [
+            {
+                'date|+1': 1,
+                'value|10-30': 1,
+                'verifyRequired|1': true
+            }
+        ],
+    })
 }
