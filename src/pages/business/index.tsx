@@ -1,11 +1,13 @@
 import * as React from 'react'
 import {
-    Table
+    Table, Menu, Dropdown, Icon
 } from 'antd'
 import { ColumnProps } from 'antd/lib/table'
 import { getRandomHSL } from '@/utils'
 import classNames from 'classnames'
 import BusinessBarChart from '@/components/BusinessBarChart'
+import StarScore from '@/components/StarScore'
+import editIcon from '@/assets/edit.png'
 import styles from './index.less'
 
 interface IBusiness {
@@ -37,8 +39,6 @@ export default class Business extends React.PureComponent {
             }) => {
                 this.setState({
                     data: bussinesses
-                }, () => {
-                    console.log(this.state)
                 })
             })
     }
@@ -54,6 +54,7 @@ export default class Business extends React.PureComponent {
     renderBussiness = ({ name, img, label }) => {
         return (
             <div className={styles.bussiness__wrapper}>
+                {/* use div replace img element. */}
                 <div 
                     style={{
                         backgroundColor: getRandomHSL()
@@ -91,7 +92,11 @@ export default class Business extends React.PureComponent {
     renderStars = ({ stars, reviews }) => {
         return (
             <div>
-                <div>{stars}</div>
+                <StarScore 
+                    num={stars}
+                    activeColor="#797a7e"
+                    defaultColor="#e2e3e6"
+                />
                 <div>{reviews} reviews</div>
             </div>
         )
@@ -100,7 +105,10 @@ export default class Business extends React.PureComponent {
     renderViews = ({ views, viewsPercent }) => {
         return (
             <div>
-                <div>{views} {viewsPercent}</div>
+                <div className={styles.mainText}>
+                    {views / 1000  >> 0}K 
+                    <span className={styles.increasePercent}>{viewsPercent * 100 >> 0}%</span>
+                </div>
                 <div>Total views</div>
             </div>
         )
@@ -109,18 +117,60 @@ export default class Business extends React.PureComponent {
     renderStasActions = ({ actions, actionsPercent }) => {
         return (
             <div>
-                <div>{actions} {actionsPercent}</div>
+                <div className={styles.mainText}>
+                    {actions} 
+                    <span className={styles.declinePercent}>{actionsPercent * 100 >> 0}%</span>
+                </div>
                 <div>Total actions</div>
             </div>
         )
     }
 
-    renderActions = () => {
+    renderActions = (record) => {
         return (
-            <div>
-                ...
+            <div 
+                style={{
+                    display: 'flex'
+                }}
+            >
+                <span className={styles.editBtn}>
+                    <img src={editIcon} />
+                </span>
+                <Dropdown 
+                    overlay={this._renderDropDownMenu(record)} 
+                    trigger={['click']}
+                >
+                    <span className={styles.dropDown}>
+                        ...
+                    </span>
+                </Dropdown>
             </div>
         )
+    }
+
+    _renderDropDownMenu = (record) => {
+        return (
+            <Menu 
+            // TODO:
+                onSelect={
+                    this._deleteBusiness
+                }
+            >
+              <Menu.Item key="0">
+                  <Icon type="picture" />
+                  Photos/Videos
+              </Menu.Item>
+              <Menu.Divider />
+              <Menu.Item className={styles.deleteBtn} key="3">
+                  <Icon type="delete" />
+                  Delete Business
+              </Menu.Item>
+            </Menu>
+        )
+    }
+
+    _deleteBusiness = record => {
+        console.log(record)
     }
 
     render() {
@@ -157,6 +207,7 @@ export default class Business extends React.PureComponent {
             {
                 key: 'actions',
                 title: 'actions',
+                className: 'actions',
                 render: this.renderActions
             }
         ]

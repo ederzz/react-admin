@@ -11,7 +11,11 @@ const StarScore: React.SFC<IProps> = ({
     activeColor = '',
     defaultColor = ''
 }) => {
-    const colors: string[] = new Array(5).map((_, i) => i < num ? activeColor : defaultColor)
+    const colors: string[] = []
+    for (let i = 0; i < 5; i++) {
+        const color = i < num ? activeColor : defaultColor
+        colors.push(color)
+    }
 
     return (
         <div>
@@ -19,7 +23,8 @@ const StarScore: React.SFC<IProps> = ({
                 colors.map((color, i) => (
                     <span 
                         style={{
-                            color
+                            color,
+                            marginRight: '2px'
                         }} 
                         key={i}
                     >&#9733;

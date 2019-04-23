@@ -236,7 +236,9 @@ export default class BusinessBarChart extends React.Component<IProps, any> {
                     const toolTipDate = toolTip.select('.date')
                     const toolTipData = toolTip.select('.data')
                     toolTipData.text(d.value)
-                    toolTipDate.text(d.date)
+                    toolTipDate.text(
+                        moment(d.date).format('MMMM DD')
+                    )
                     const h = tsPx2number(toolTip.style('height'))
                     toolTip
                         .style('opacity', 1)
