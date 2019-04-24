@@ -39,7 +39,12 @@ class BasicLayout extends React.PureComponent<any, any> {
                         <SiderMenu menuData={routes} />
                         <Layout>
                             <Header />
-                            <Content>{this.props.children}</Content>
+                            <Content 
+                                style={{
+                                    margin: '24px'
+                                }}
+                            >{this.props.children}
+                            </Content>
                             <Footer>footer</Footer>
                         </Layout>
                     </Layout>
@@ -50,4 +55,3 @@ class BasicLayout extends React.PureComponent<any, any> {
 }
 
 export default BasicLayout
-// TODO: 默认的项目配置

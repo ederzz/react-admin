@@ -44,10 +44,6 @@ export default {
             component: './d3map2/index',
         },
         {
-            path: '/bussiness',
-            component: './business/index',
-        },
-        {
             path: '/',
             component: '../layouts/index',
             Routes: ['src/pages/Authorized'],
@@ -78,6 +74,12 @@ export default {
                             path: ''
                         }
                     ]
+                },
+                {
+                    path: '/bussiness',
+                    component: './business/index',
+                    name: 'business',
+                    icon: 'shop'
                 },
                 // {
                 //     path: '/orders',
