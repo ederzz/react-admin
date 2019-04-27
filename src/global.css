@@ -1,5 +1,8 @@
+html {
+    font-size: 13.33333333vw!important;
+}
 
-html, body, #root {
+html, body {
   height: 100%;
 }
 
