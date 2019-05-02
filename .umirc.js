@@ -50,7 +50,7 @@ export default {
             routes: [
                 {
                     path: '/',
-                    redirect: './user/login'
+                    redirect: '/dashboard'
                 },
                 {
                     path: '/dashboard',

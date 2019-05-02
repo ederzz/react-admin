@@ -2,7 +2,7 @@ html {
     font-size: 13.33333333vw!important;
 }
 
-html, body {
+html, body, #root {
   height: 100%;
 }
 

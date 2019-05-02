@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Layout } from 'antd'
+// import { Redirect } from 'dva/router'
 import SiderMenu from '@/components/SiderMenu'
 import Header from './header'
 import styles from './index.less'
@@ -29,6 +30,9 @@ class BasicLayout extends React.PureComponent<any, any> {
                 routes
             }
         } = this.props
+        // if (!hasLogin) { TODO: limit for no login, send req to server for user info.
+        //     return <Redirect to="/user/login" />
+        // }
     
         return (
             <div className={styles.normal}>

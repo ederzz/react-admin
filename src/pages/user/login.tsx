@@ -1,12 +1,16 @@
 import * as React from 'react'
+import { connect } from 'dva'
 import { drawRibbon } from '@/utils'
 import user from '@/assets/person.png'
 import pwd from '@/assets/password.png'
 import styles from './login.less'
+import { routerRedux } from 'dva/router'
 
 const { useRef, useEffect, useState } = React
 
-const Login = () => {
+const Login = ({
+    dispatch
+}) => {
     const canvasRef = useRef(null)
     const [
         account,
@@ -41,6 +45,24 @@ const Login = () => {
             password: value
         })
     }
+
+    const _login = () => {
+        const {
+            userName,
+            password
+        } = account
+        if (!userName || !password) {
+            return null
+        }
+        dispatch({
+            type: 'user/login',
+            userName,
+            password,
+            callback: () => {
+                dispatch(routerRedux.push('/'))
+            }
+        })
+    }
     
     return (
         <div className={styles.login}>
@@ -50,6 +72,8 @@ const Login = () => {
                     <img src={user} />
                 </label>
                 <input 
+                    autoComplete="off"
+                    className={styles.inputEle}
                     value={ account.userName }
                     onChange={ setUserName }
                     placeholder="guest"
@@ -60,13 +84,15 @@ const Login = () => {
                     <img src={pwd} />
                 </label>
                 <input 
+                    autoComplete="off"
+                    className={styles.inputEle}
                     type="password"
                     value={ account.password }
                     onChange={ setPwd }
                     placeholder="guest"
                 />
             </div>
-            <button className={styles.loginBtn}>Login In</button>
+            <button onClick={_login} className={styles.loginBtn}>Login In</button>
             <small className={styles.tip}>
                 Don't have an account?
                 <a className={styles.signUp}>Sign Up</a>
@@ -79,4 +105,4 @@ const Login = () => {
     )
 }
 
-export default Login
+export default connect()(Login)

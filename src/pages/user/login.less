@@ -98,13 +98,18 @@
         height: 20px;
     }
 
-    input {
-        background-color: transparent;
+    .inputEle {
+        background-color: transparent!important;
+        background-color: red;
         border: none;
         outline: none;
         padding: 5px 10px;
         flex-grow: 1;
         color: #fff;
+
+        &:-webkit-autofill {
+            background-color: transparent !important;
+        }
     }
 }
 
